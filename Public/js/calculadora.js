@@ -12,7 +12,7 @@ class CalculadoraBasica extends HTMLElement {
 
         <!-- Contenedor principal de la calculadora -->
         <div class="card p-3 mt4">
-            <h4 class="mb-3>Calculadora Básica</h4>
+            <h4 class="mb-3">Calculadora Básica</h4>
 
             <!-- Campo para escribir el primer número -->
             <div class="mb-2">
@@ -38,7 +38,7 @@ class CalculadoraBasica extends HTMLElement {
             <button id="calcular" class="btn btn-primary w-100">Calcular</button>
 
             <!-- Aquí se muestra el resultado después del cálculo -->
-            <div id="resultado" class="alert alert-info mt3" role="alert">
+            <div id="resultado" class="alert alert-info mt-3" role="alert">
                 Resulatdo: <span id="valor">---</span>
             </div>
         </div>
@@ -54,8 +54,42 @@ class CalculadoraBasica extends HTMLElement {
 
     // Función para realizar el cálculo
     realizarCalculo() {
+        const n1 = this.shadow.querySelector('#numero1').value;
+        const n2 = this.shadow.querySelector('#numero2').value;
+        const operacion = this.shadow.querySelector('#operacion').value;
+        const resultado = this.shadow.querySelector('#valor');
 
+        const numero1 = parseFloat(n1);
+        const numero2 = parseFloat(n2);
+
+        if (isNaN(numero1) || isNaN(numero2)) {
+            resultado.textContent = "Los datos no son correctos";
+            return;
+        }
+
+        let res = 0;
+        switch (operacion) {
+            case "suma":
+                res = numero1 + numero2;
+                break;
+            case "resta":
+                res = numero1 - numero2;
+                break;
+            case "multiplicacion":
+                res = numero1 * numero2;
+                break;
+            case "division":
+                if (numero2 === 0) {
+                    resultado.textContent = "No se puede dividir entre cero";
+                    return;
+                } 
+                res = numero1 / numero2;
+                break;
+        }
+
+        resultado.textContent = res.toFixed(2); // Mostramos el resultado con dos decimales
     }
+
 }
 
 // Registramos nuestro nuevo componente con el nombre que usaremos en HTML
