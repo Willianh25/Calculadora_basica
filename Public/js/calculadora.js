@@ -54,19 +54,23 @@ class CalculadoraBasica extends HTMLElement {
 
     // Función para realizar el cálculo
     realizarCalculo() {
+        // Se obtienen los datos ingresados
         const n1 = this.shadow.querySelector('#numero1').value;
         const n2 = this.shadow.querySelector('#numero2').value;
         const operacion = this.shadow.querySelector('#operacion').value;
         const resultado = this.shadow.querySelector('#valor');
 
+        // Se convierte los valores a números
         const numero1 = parseFloat(n1);
         const numero2 = parseFloat(n2);
 
+        //  Se verifica si los números son válidos
         if (isNaN(numero1) || isNaN(numero2)) {
             resultado.textContent = "Los datos no son correctos";
             return;
         }
 
+        // Se realiza la operación según lo que se elija
         let res = 0;
         switch (operacion) {
             case "suma":
@@ -88,6 +92,13 @@ class CalculadoraBasica extends HTMLElement {
         }
 
         resultado.textContent = res.toFixed(2); // Mostramos el resultado con dos decimales
+
+        // Extra: Se envia un  evento personalizado al documento principal con el resultado
+        this.dispatchEvent(new CustomEvent('resultado-calculado', {
+            detail: { resultado: res },
+            bubbles: true, // Permite que el evento suba por el DOM
+            composed: true // Permite que el evento atraviese Shadow DOM
+        }));
     }
 
 }
