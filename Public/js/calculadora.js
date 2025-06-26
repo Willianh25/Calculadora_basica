@@ -41,8 +41,13 @@ class CalculadoraBasica extends HTMLElement {
             <div id="resultado" class="alert alert-info mt-3" role="alert">
                 Resulatdo: <span id="valor">---</span>
             </div>
+
+            <!-- Lista para mostrar el historial de cálculos -->
+            <ul id="lista-historial" class="list-group mt-3"></ul>
         </div>
         `;
+
+        this.historial = []; // Aquí guardaremos el historial de cálculos
     }
 
     // Esto se ejecuta cuando el componente ya está en la página
@@ -99,6 +104,28 @@ class CalculadoraBasica extends HTMLElement {
             bubbles: true, // Permite que el evento suba por el DOM
             composed: true // Permite que el evento atraviese Shadow DOM
         }));
+
+        // Se guarda el resultado en el historial
+        const textoOperacion = `${numero1} ${this.simboloOperacion(operacion)} ${numero2} = ${res.toFixed(2)}`;
+        this.historial.push(textoOperacion);
+
+        // Se muestra el historial en la consola
+        const lista = this.shadow.querySelector('#lista-historial');
+        const item = document.createElement('li');
+        item.textContent = textoOperacion;
+        item.classList.add('list-group-item');
+        lista.appendChild(item);
+    }
+
+    simboloOperacion(operacion) {
+        // Devuelve el símbolo de la operación
+        switch (operacion) {
+            case "suma": return "+";
+            case "resta": return "-";
+            case "multiplicacion": return "*";
+            case "division": return "/";
+            default: return "";
+        }
     }
 
 }
