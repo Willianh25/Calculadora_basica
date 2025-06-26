@@ -1,0 +1,3 @@
+class CalculadoraBasica extends HTMLElement {
+    
+    }
